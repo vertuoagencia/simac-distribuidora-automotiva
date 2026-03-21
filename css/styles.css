@@ -1179,7 +1179,7 @@ body {
    ================================================================================================================================================================================================================ */
 
 /* ===== DESKTOP NOTEBOOK 1366px ===== */
-@media only screen and (max-width: 1366px) and (min-width: 1201px) {
+@media only screen and (max-width: 1536px) and (min-width: 1201px) {
   /* NAVBAR */
   .navbar {
     padding: 0 16px;
@@ -1249,7 +1249,8 @@ body {
 
   /* REVIEWS */
   .reviews{
-    height: 85vh;  }
+    height: 130vh;
+  }
   .reviews-top h2 {
     font-size: 30px;
   }
