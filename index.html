@@ -32,10 +32,8 @@
       <!-- Menu de Navegação -->
       <ul class="nav-links">
         <li><a href="#sobre">Sobre</a></li>
-        <li><a href="#marcas">Marcas</a></li>
-        <li><a href="#catalogo">Catálogo</a></li>
-        <li><a href="#depoimentos">Depoimentos</a></li>
         <li><a href="#produtos">Produtos</a></li>
+        <li><a href="#depoimentos">Depoimentos</a></li>
         <li><a href="#localizacao">Localização</a></li>
       </ul>
       <!-- Botões -->
@@ -56,10 +54,8 @@
   <div class="mobile-menu">
     <ul class="mobile-nav-links">
       <li><a href="#sobre">Sobre</a></li>
-      <li><a href="#marcas">Marcas</a></li>
-      <li><a href="#catalogo">Catálogo</a></li>
-      <li><a href="#depoimentos">Depoimentos</a></li>
       <li><a href="#produtos">Produtos</a></li>
+      <li><a href="#depoimentos">Depoimentos</a></li>
       <li><a href="#localizacao">Localização</a></li>
     </ul>
     <div class="mobile-menu-buttons">
@@ -175,8 +171,15 @@
   </section>
 
   <!-- CARROSEL DE MARCAS ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
-  <section class="brand-strip">
+  <section class="brand-strip" id="sobre">
     <div class="brand-track" id="brandTrack"></div>
+  </section>
+
+  <!-- CARROSEL DE MARCAS ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+  <section class="carrossel-products">
+    <video autoplay muted loop playsinline>
+      <source src="video/0W20.mp4" type="video/mp4">
+    </video>
   </section>
 
   <!-- SOBRE -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
@@ -198,7 +201,7 @@
               WhatsApp
             </a>
           <a href="#" class="btn btn-outline-orange">
-            Catálogo
+            Explorar produtos
           </a>
         </div>
       </div>
@@ -236,7 +239,7 @@
   </section>
 
   <!-- TIPOS DE PRODUTOS -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
-  <section class="products">
+  <section class="products" id="produtos">
     <div class="products-container">
       <div class="products-header">
         <h2>POR QUE A SIMAC É A MELHOR ESCOLHA EM ÓLEOS E FILTROS?</h2>
@@ -308,7 +311,7 @@
   </section>
   
   <!-- GOOGLE REVIEW ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
-  <section class="reviews">
+  <section class="reviews" id="depoimentos">
     <div class="reviews-container">
       <div class="reviews-top">
         <h2>
@@ -330,7 +333,7 @@
   </section>
 
   <!-- GOOGLE MAPS ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
-  <section class="maps-section">
+  <section class="maps-section" id="localizacao">
     <div class="maps-wrapper">
       <div class="maps-top">
         <div class="maps-info">
@@ -360,7 +363,7 @@
   </section>
 
   <!-- FORMULARIO DE CONTATO ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
-  <section class="form-section">
+  <section class="form-section" id="contato">
     <div class="bg-blur"></div>
     <div class="form-container">
       <!-- FORMULÁRIO -->
