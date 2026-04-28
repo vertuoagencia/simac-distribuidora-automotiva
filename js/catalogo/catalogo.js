@@ -1,266 +1,328 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+const supabaseUrl = 'https://updqzeidruylrupzetai.supabase.co';
 
-const SUPABASE_URL = 'https://updqzeidruylrupzetai.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVwZHF6ZWlkcnV5bHJ1cHpldGFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4NjkzNDYsImV4cCI6MjA2MTQ0NTM0Nn0.MV1GMF7e71bGBEMYaTJQAqkU5Db73lHrpWRGKVFOZIA';
+const supabaseKey = 'COLE_SUA_CHAVE_ANON_AQUI';
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = window.supabase.createClient(
+  supabaseUrl,
+  supabaseKey
+);
 
-const DEFAULT_IMAGE = 'https://images.pexels.com/photos/3807386/pexels-photo-3807386.jpeg?auto=compress&cs=tinysrgb&w=400';
+/* ===========================================
+   VARIÁVEIS
+=========================================== */
+let produtos = [];
+let produtosFiltrados = [];
 
-let allProducts = [];
-let filteredProducts = [];
-
-const filters = {
-  search: '',
-  categories: new Set(['all']),
-  brands: new Set(['all']),
-  sizes: new Set(['all']),
-  boxQuantities: new Set(['all']),
-  sortBy: 'name-asc'
+const filtros = {
+  busca: '',
+  categoria: 'all',
+  marca: 'all',
+  tamanho: 'all',
+  caixa: 'all',
+  ordenar: 'name-asc'
 };
 
-async function loadProducts() {
+/* ===========================================
+   INICIAR
+=========================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  carregarProdutos();
+});
+
+/* ===========================================
+   BUSCAR PRODUTOS NO SUPABASE
+=========================================== */
+async function carregarProdutos() {
   try {
     const { data, error } = await supabase
-      .from('products')
+      .from('Produtos SIMAC')
       .select('*')
       .order('nome_produto', { ascending: true });
 
     if (error) throw error;
 
-    allProducts = (data || []).map(p => ({
-      id: p.id,
-      name: p.nome_produto || '',
-      brand: p.marca || '',
-      category: p.categoria || '',
-      box_quantity: p.quantidade_caixa || '',
-      size: p.quantidade_embalagem || '',
-      specification: p.especificacoes || '',
-      indication: p.indicacao || '',
-      image_url: p.image_url || DEFAULT_IMAGE,
-    }));
+    produtos = data || [];
+    produtosFiltrados = [...produtos];
 
-    populateFilters();
-    applyFilters();
-  } catch (err) {
-    console.error('Erro ao carregar produtos:', err);
-    showError('Nao foi possivel carregar os produtos. Verifique a conexao.');
+    montarFiltros();
+    aplicarFiltros();
+
+  } catch (erro) {
+    console.error(erro);
+    mostrarErro('Erro ao carregar produtos.');
   }
 }
 
-function getUniqueValues(key) {
-  return [...new Set(allProducts.map(p => p[key]).filter(v => v && v.toString().trim()))].sort();
+/* ===========================================
+   FILTROS
+=========================================== */
+function montarFiltros() {
+  criarFiltro(
+    'categoryFilters',
+    'categoria',
+    [...new Set(produtos.map(p => p.categoria).filter(Boolean))],
+    'Todas as categorias'
+  );
+
+  criarFiltro(
+    'brandFilters',
+    'marca',
+    [...new Set(produtos.map(p => p.marca).filter(Boolean))],
+    'Todas as marcas'
+  );
+
+  criarFiltro(
+    'sizeFilters',
+    'tamanho',
+    [...new Set(produtos.map(p => p.quantidade_embalagem).filter(Boolean))],
+    'Todos os tamanhos'
+  );
+
+  criarFiltro(
+    'boxQuantityFilters',
+    'caixa',
+    [...new Set(produtos.map(p => p.quantidade_caixa).filter(Boolean))],
+    'Todas'
+  );
+
+  ativarEventos();
 }
 
-function populateFilters() {
-  buildCheckboxGroup('categoryFilters', 'category', 'Todas as categorias', getUniqueValues('category'));
-  buildCheckboxGroup('brandFilters', 'brand', 'Todas as marcas', getUniqueValues('brand'));
-  buildCheckboxGroup('sizeFilters', 'size', 'Todos os tamanhos', getUniqueValues('size'));
-  buildCheckboxGroup('boxQuantityFilters', 'boxQuantity', 'Todas', getUniqueValues('box_quantity'));
-  setupFilterListeners();
-}
+function criarFiltro(id, nome, itens, textoAll) {
+  const box = document.getElementById(id);
 
-function buildCheckboxGroup(containerId, name, allLabel, values) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-
-  container.innerHTML = `
+  box.innerHTML = `
     <label class="filter-option">
-      <input type="checkbox" name="${name}" value="all" checked />
-      <span>${allLabel}</span>
+      <input type="radio" name="${nome}" value="all" checked>
+      <span>${textoAll}</span>
     </label>
   `;
 
-  values.forEach(value => {
-    const label = document.createElement('label');
-    label.className = 'filter-option';
-    label.innerHTML = `
-      <input type="checkbox" name="${name}" value="${escapeAttr(value)}" />
-      <span>${escapeHtml(value)}</span>
+  itens.sort().forEach(item => {
+    box.innerHTML += `
+      <label class="filter-option">
+        <input type="radio" name="${nome}" value="${item}">
+        <span>${item}</span>
+      </label>
     `;
-    container.appendChild(label);
   });
 }
 
-function setupFilterListeners() {
-  document.getElementById('searchInput').addEventListener('input', e => {
-    filters.search = e.target.value.toLowerCase().trim();
-    applyFilters();
-  });
+/* ===========================================
+   EVENTOS
+=========================================== */
+function ativarEventos() {
 
-  [
-    { name: 'category', key: 'categories' },
-    { name: 'brand', key: 'brands' },
-    { name: 'size', key: 'sizes' },
-    { name: 'boxQuantity', key: 'boxQuantities' }
-  ].forEach(({ name, key }) => {
-    document.querySelectorAll(`input[name="${name}"]`).forEach(cb => {
-      cb.addEventListener('change', e => handleCheckboxChange(key, e.target));
-    });
+  document.getElementById('searchInput').addEventListener('input', e => {
+    filtros.busca = e.target.value.toLowerCase();
+    aplicarFiltros();
   });
 
   document.getElementById('sortBy').addEventListener('change', e => {
-    filters.sortBy = e.target.value;
-    applyFilters();
+    filtros.ordenar = e.target.value;
+    aplicarFiltros();
   });
 
-  document.getElementById('clearFilters').addEventListener('click', clearAllFilters);
+  document.getElementById('clearFilters').addEventListener('click', limparFiltros);
+
+  document.querySelectorAll('input[name="categoria"]').forEach(el => {
+    el.addEventListener('change', e => {
+      filtros.categoria = e.target.value;
+      aplicarFiltros();
+    });
+  });
+
+  document.querySelectorAll('input[name="marca"]').forEach(el => {
+    el.addEventListener('change', e => {
+      filtros.marca = e.target.value;
+      aplicarFiltros();
+    });
+  });
+
+  document.querySelectorAll('input[name="tamanho"]').forEach(el => {
+    el.addEventListener('change', e => {
+      filtros.tamanho = e.target.value;
+      aplicarFiltros();
+    });
+  });
+
+  document.querySelectorAll('input[name="caixa"]').forEach(el => {
+    el.addEventListener('change', e => {
+      filtros.caixa = e.target.value;
+      aplicarFiltros();
+    });
+  });
 }
 
-function handleCheckboxChange(filterKey, checkbox) {
-  const value = checkbox.value;
+/* ===========================================
+   LIMPAR
+=========================================== */
+function limparFiltros() {
 
-  if (value === 'all') {
-    if (checkbox.checked) {
-      filters[filterKey] = new Set(['all']);
-      document.querySelectorAll(`input[name="${checkbox.name}"]:not([value="all"])`).forEach(cb => cb.checked = false);
-    } else {
-      checkbox.checked = true;
-    }
-  } else {
-    if (checkbox.checked) {
-      filters[filterKey].delete('all');
-      filters[filterKey].add(value);
-      document.querySelector(`input[name="${checkbox.name}"][value="all"]`).checked = false;
-    } else {
-      filters[filterKey].delete(value);
-      if (filters[filterKey].size === 0) {
-        filters[filterKey].add('all');
-        document.querySelector(`input[name="${checkbox.name}"][value="all"]`).checked = true;
-      }
-    }
-  }
-
-  applyFilters();
-}
-
-function clearAllFilters() {
-  filters.search = '';
-  filters.categories = new Set(['all']);
-  filters.brands = new Set(['all']);
-  filters.sizes = new Set(['all']);
-  filters.boxQuantities = new Set(['all']);
-  filters.sortBy = 'name-asc';
+  filtros.busca = '';
+  filtros.categoria = 'all';
+  filtros.marca = 'all';
+  filtros.tamanho = 'all';
+  filtros.caixa = 'all';
+  filtros.ordenar = 'name-asc';
 
   document.getElementById('searchInput').value = '';
   document.getElementById('sortBy').value = 'name-asc';
-  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-    cb.checked = cb.value === 'all';
+
+  document.querySelectorAll('input[type="radio"]').forEach(input => {
+    input.checked = input.value === 'all';
   });
 
-  applyFilters();
+  aplicarFiltros();
 }
 
-function applyFilters() {
-  filteredProducts = allProducts.filter(product => {
-    if (filters.search) {
-      const q = filters.search;
-      const matches =
-        product.name.toLowerCase().includes(q) ||
-        product.brand.toLowerCase().includes(q) ||
-        product.category.toLowerCase().includes(q) ||
-        product.specification.toLowerCase().includes(q) ||
-        product.indication.toLowerCase().includes(q);
-      if (!matches) return false;
+/* ===========================================
+   FILTRAR
+=========================================== */
+function aplicarFiltros() {
+
+  produtosFiltrados = produtos.filter(produto => {
+
+    const nome = (produto.nome_produto || '').toLowerCase();
+    const marca = (produto.marca || '').toLowerCase();
+
+    if (filtros.busca) {
+      const encontrou =
+        nome.includes(filtros.busca) ||
+        marca.includes(filtros.busca);
+
+      if (!encontrou) return false;
     }
 
-    if (!filters.categories.has('all') && !filters.categories.has(product.category)) return false;
-    if (!filters.brands.has('all') && !filters.brands.has(product.brand)) return false;
-    if (!filters.sizes.has('all') && !filters.sizes.has(product.size)) return false;
-    if (!filters.boxQuantities.has('all') && !filters.boxQuantities.has(product.box_quantity)) return false;
+    if (filtros.categoria !== 'all' &&
+        produto.categoria !== filtros.categoria) {
+      return false;
+    }
+
+    if (filtros.marca !== 'all' &&
+        produto.marca !== filtros.marca) {
+      return false;
+    }
+
+    if (filtros.tamanho !== 'all' &&
+        produto.quantidade_embalagem != filtros.tamanho) {
+      return false;
+    }
+
+    if (filtros.caixa !== 'all' &&
+        produto.quantidade_caixa != filtros.caixa) {
+      return false;
+    }
 
     return true;
   });
 
-  sortProducts();
-  renderProducts();
+  ordenarProdutos();
+  renderizarProdutos();
 }
 
-function sortProducts() {
-  switch (filters.sortBy) {
-    case 'name-asc':
-      filteredProducts.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
-      break;
-    case 'name-desc':
-      filteredProducts.sort((a, b) => b.name.localeCompare(a.name, 'pt-BR'));
-      break;
-    case 'newest':
-      filteredProducts.sort((a, b) => b.id - a.id);
-      break;
+/* ===========================================
+   ORDENAR
+=========================================== */
+function ordenarProdutos() {
+
+  if (filtros.ordenar === 'name-asc') {
+    produtosFiltrados.sort((a, b) =>
+      a.nome_produto.localeCompare(b.nome_produto)
+    );
+  }
+
+  if (filtros.ordenar === 'name-desc') {
+    produtosFiltrados.sort((a, b) =>
+      b.nome_produto.localeCompare(a.nome_produto)
+    );
+  }
+
+  if (filtros.ordenar === 'newest') {
+    produtosFiltrados.sort((a, b) => b.id - a.id);
   }
 }
 
-function renderProducts() {
-  const grid = document.getElementById('productsGrid');
-  const noResults = document.getElementById('noResults');
-  const resultsCount = document.getElementById('resultsCount');
-  const count = filteredProducts.length;
+/* ===========================================
+   MOSTRAR PRODUTOS
+=========================================== */
+function renderizarProdutos() {
 
-  if (count === 0) {
-    resultsCount.textContent = 'Nenhum produto encontrado';
+  const grid = document.getElementById('productsGrid');
+  const contador = document.getElementById('resultsCount');
+  const noResults = document.getElementById('noResults');
+
+  contador.textContent =
+    produtosFiltrados.length === 1
+      ? '1 produto encontrado'
+      : `${produtosFiltrados.length} produtos encontrados`;
+
+  if (produtosFiltrados.length === 0) {
     grid.innerHTML = '';
     noResults.style.display = 'block';
     return;
   }
 
   noResults.style.display = 'none';
-  resultsCount.textContent = count === 1 ? '1 produto encontrado' : `${count} produtos encontrados`;
 
-  grid.innerHTML = filteredProducts.map(product => `
+  grid.innerHTML = produtosFiltrados.map(produto => `
     <div class="product-card">
+
       <img
-        src="${escapeAttr(product.image_url)}"
-        alt="${escapeAttr(product.name)}"
+        src="https://via.placeholder.com/400x250?text=SIMAC"
+        alt="${produto.nome_produto}"
         class="product-image"
-        onerror="this.src='${DEFAULT_IMAGE}'"
-      />
-      <div class="product-brand">${escapeHtml(product.brand)}</div>
-      <h3 class="product-name">${escapeHtml(product.name)}</h3>
-      ${product.size ? `<p class="product-size">${escapeHtml(product.size)}</p>` : ''}
+      >
+
+      <div class="product-brand">${produto.marca || ''}</div>
+
+      <h3 class="product-name">${produto.nome_produto || ''}</h3>
+
+      <p class="product-size">
+        ${produto.quantidade_embalagem || ''}
+      </p>
+
       <div class="product-details">
-        ${product.category ? `
-          <div class="product-detail-item">
-            <span class="product-detail-label">Categoria:</span>
-            <span class="product-detail-value">${escapeHtml(product.category)}</span>
-          </div>` : ''}
-        ${product.box_quantity ? `
-          <div class="product-detail-item">
-            <span class="product-detail-label">Caixa:</span>
-            <span class="product-detail-value">${escapeHtml(product.box_quantity)} un</span>
-          </div>` : ''}
-        ${product.specification ? `
-          <div class="product-detail-item">
-            <span class="product-detail-label">Especificacao:</span>
-            <span class="product-detail-value">${escapeHtml(product.specification)}</span>
-          </div>` : ''}
+
+        <div class="product-detail-item">
+          <span class="product-detail-label">Categoria:</span>
+          <span class="product-detail-value">
+            ${produto.categoria || '-'}
+          </span>
+        </div>
+
+        <div class="product-detail-item">
+          <span class="product-detail-label">Caixa:</span>
+          <span class="product-detail-value">
+            ${produto.quantidade_caixa || '-'}
+          </span>
+        </div>
+
+        <div class="product-detail-item">
+          <span class="product-detail-label">Código:</span>
+          <span class="product-detail-value">
+            ${produto.codigo_sistema || '-'}
+          </span>
+        </div>
+
       </div>
     </div>
   `).join('');
 }
 
-function showError(message) {
-  const grid = document.getElementById('productsGrid');
-  grid.innerHTML = `
-    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #dc3545; font-family: 'DM Sans', sans-serif;">
-      <h3>${escapeHtml(message)}</h3>
-      <p style="margin-top:8px;color:#666;">Tente recarregar a pagina.</p>
+/* ===========================================
+   ERRO
+=========================================== */
+function mostrarErro(msg) {
+  document.getElementById('productsGrid').innerHTML = `
+    <div style="
+      grid-column:1/-1;
+      padding:40px;
+      text-align:center;
+      color:red;
+      font-weight:bold;
+    ">
+      ${msg}
     </div>
   `;
-  document.getElementById('resultsCount').textContent = '';
 }
-
-function escapeHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
-function escapeAttr(str) {
-  if (!str) return '';
-  return String(str).replace(/"/g, '&quot;');
-}
-
-document.addEventListener('DOMContentLoaded', loadProducts);
