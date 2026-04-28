@@ -1,6 +1,6 @@
 const supabaseUrl = 'https://updqzeidruylrupzetai.supabase.co';
 
-const supabaseKey = 'COLE_SUA_CHAVE_ANON_AQUI';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVwZHF6ZWlkcnV5bHJ1cHpldGFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDc4MDcsImV4cCI6MjA5MDcyMzgwN30.77tpgPQrJU8I4k0V4sKET_hmHZW1O1Nc77MqoPL-UHg';
 
 const supabase = window.supabase.createClient(
   supabaseUrl,
