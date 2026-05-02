@@ -196,6 +196,48 @@
     </div>
   </footer>
 
+  <!-- MODAL DE PRODUTO -->
+  <div class="product-modal-overlay" id="productModal" role="dialog" aria-modal="true" aria-labelledby="modalName">
+    <div class="product-modal">
+      <button class="modal-close" id="modalClose" aria-label="Fechar">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="modal-body">
+        <div class="modal-image-wrapper">
+          <img id="modalImage" src="" alt="" class="modal-image" />
+        </div>
+        <div class="modal-info">
+          <div class="modal-brand-badge" id="modalBrand"></div>
+          <h2 class="modal-name" id="modalName"></h2>
+          <div class="modal-fields">
+            <div class="modal-field">
+              <span class="modal-field-label">Categoria</span>
+              <span class="modal-field-value" id="modalCategory"></span>
+            </div>
+            <div class="modal-field">
+              <span class="modal-field-label">Tamanho / Volume</span>
+              <span class="modal-field-value" id="modalSize"></span>
+            </div>
+            <div class="modal-field">
+              <span class="modal-field-label">Qtd. por Caixa</span>
+              <span class="modal-field-value" id="modalBoxQty"></span>
+            </div>
+            <div class="modal-field modal-field--full">
+              <span class="modal-field-label">Especificações</span>
+              <span class="modal-field-value" id="modalSpec"></span>
+            </div>
+            <div class="modal-field modal-field--full">
+              <span class="modal-field-label">Indicação</span>
+              <span class="modal-field-value" id="modalIndication"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="js/principal/mobile-menu.js"></script>
   <script type="module" src="js/catalogo/catalogo.js"></script>
 </body>
