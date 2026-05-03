@@ -316,9 +316,8 @@
 
 /* FOOTER AJUSTES */
 .footer {
-  background-color: #00101F;
-  color: #f3f3f3;
-  margin-top: 60px;
+  background-color: #f3f3f3;
+  color: #00101F;
   padding: 48px 24px 24px;
 }
 
@@ -336,7 +335,7 @@
 
 .footer-section h3,
 .footer-section h4 {
-  color: white;
+  color: #00101F;
   margin-bottom: 16px;
   font-weight: 700;
 }
@@ -366,7 +365,7 @@
 }
 
 .footer-section ul li a {
-  color: #f3f3f3;
+  color: #00101F;
   text-decoration: none;
   opacity: 0.9;
   transition: opacity 0.3s ease;
@@ -384,6 +383,28 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 0.9rem;
   opacity: 0.8;
+}
+
+.social-links {
+  list-style: none;
+  padding: 0;
+  margin-top: 8px;
+}
+
+.social-links li {
+  margin-bottom: 6px;
+}
+
+.social-links a {
+  color: #00101F;
+  text-decoration: none;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #DF4600;
+  opacity: 1;
 }
 
 /* ===== RESPONSIVO ===== */

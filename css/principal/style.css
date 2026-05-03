@@ -351,7 +351,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(0deg, #00101F 0%, #052A4F 50%, #00101F 100%);
+  background: #00101F;
   color: #f3f3f3;
   text-align: center;
   padding: 50px 24px;
@@ -933,6 +933,23 @@ body {
   overflow: hidden;
 }
 
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-header h2 {
+  font-size: 32px;
+  margin-bottom: 12px;
+  color: #f3f3f3;
+}
+
+.section-header p {
+  font-size: 22px;
+  color: #f3f3f3;
+  margin: 0 auto;
+}
+
 .form-container {
   width: 1280px;
   margin: 0 auto;
@@ -940,18 +957,6 @@ body {
   gap: 20px;
   position: relative;
   z-index: 2;
-}
-
-/* ===== BLUR LARANJA FUNDO ===== */
-.bg-blur {
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, #DF4600, transparent 70%);
-  filter: blur(120px);
-  left: -150px;
-  top: 50px;
-  z-index: 1;
 }
 
 /* ===== FORMULÁRIO ===== */
@@ -1112,12 +1117,107 @@ body {
   position: relative;
   z-index: 2;
   background: #f3f3f3;
-  color: #011526;
+  color: #00101F;
   border: none;
   padding: 8px 14px;
   border-radius: 20px;
   font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
+}
+
+
+/* FOOTER AJUSTES */
+.footer {
+  background-color: #f3f3f3;
+  color: #00101F;
+  padding: 48px 24px 24px;
+}
+
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.footer-section h3,
+.footer-section h4 {
+  color: #00101F;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.footer-section p {
+  opacity: 0.9;
+  line-height: 1.8;
+  font-size: 0.95rem;
+}
+
+.footer-section p a {
+  color: #DF4600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-section p a:hover {
+  color: #FF6008;
+}
+
+.footer-section ul {
+  list-style: none;
+}
+
+.footer-section ul li {
+  margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+  color: #00101F;
+  text-decoration: none;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.footer-section ul li a:hover {
+  opacity: 1;
+  color: #DF4600;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.social-links {
+  list-style: none;
+  padding: 0;
+  margin-top: 8px;
+}
+
+.social-links li {
+  margin-bottom: 6px;
+}
+
+.social-links a {
+  color: #00101F;
+  text-decoration: none;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #DF4600;
+  opacity: 1;
 }
 
 /* ================================================================================================================================================================================================================

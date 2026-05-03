@@ -40,7 +40,7 @@
       <!-- Botões -->
       <div class="nav-buttons">
         <a href="#contato" class="btn btn-outline">Contato</a>
-        <a href="#catalogo" class="btn btn-primary">Explorar produtos</a>
+        <a href="/catalogo.html" class="btn btn-primary">Explorar produtos</a>
       </div>
       <!-- Menu Hamburger -->
       <div class="mobile-toggle">
@@ -55,13 +55,14 @@
   <div class="mobile-menu">
     <ul class="mobile-nav-links">
       <li><a href="#sobre">Sobre</a></li>
+      <a href="/catalogo.html" class="active">Catálogo</a>
       <li><a href="#produtos">Produtos</a></li>
       <li><a href="#depoimentos">Depoimentos</a></li>
       <li><a href="#localizacao">Localização</a></li>
     </ul>
     <div class="mobile-menu-buttons">
       <a href="#contato" class="btn btn-outline">Contato</a>
-      <a href="#catalogo" class="btn btn-primary">Explorar produtos</a>
+      <a href="/catalogo.html" class="btn btn-primary">Explorar produtos</a>
     </div>
   </div>
 
@@ -139,7 +140,7 @@
         </p>
         <!-- Botões -->
         <div class="hero-buttons">
-          <a href="#catalogo" class="btn btn-primary">
+          <a href="/catalogo.html" class="btn btn-primary">
             Explorar produtos
             <svg width="18" height="18" viewBox="0 0 19 19" fill="none">
               <path d="M5.5 13.5L13.5 5.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
@@ -202,7 +203,7 @@
                   alt="WhatsApp">
               WhatsApp
             </a>
-          <a href="#" class="btn btn-outline-orange">
+          <a href="/catalogo.html" class="btn btn-outline-orange">
             Explorar produtos
           </a>
         </div>
@@ -366,7 +367,12 @@
 
   <!-- FORMULARIO DE CONTATO ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
   <section class="form-section" id="contato">
-    <div class="bg-blur"></div>
+    <div class="section-header">
+      <h2>Fale com a SIMAC</h2>
+      <p>
+        Precisa de peças ou lubrificantes automotivos? Nossa equipe está pronta para te atender com rapidez e eficiência.
+      </p>
+    </div>
     <div class="form-container">
       <!-- FORMULÁRIO -->
       <div class="form-box">
@@ -421,17 +427,73 @@
           <video autoplay muted loop playsinline>
             <source src="https://vertuoagencia.github.io/simac-automotiva-dados/video/principal/carrossel_produtos01.mp4" type="video/mp4">
           </video>
-          <button class="btn-catalog">
+          <a href="/catalogo.html" class="btn-catalog" >
             Explorar produtos
             <svg width="18" height="18" viewBox="0 0 19 19" fill="none">
               <path d="M5.5 13.5L13.5 5.5" stroke="black" stroke-width="2" stroke-linecap="round"/>
               <path d="M5.5 5.5H13.5V13.5" stroke="black" stroke-width="2" stroke-linecap="round"/>
             </svg>
-          </button>
+          </a>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- RODAPÉ -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-content">
+
+        <!-- Sobre -->
+        <div class="footer-section">
+          <h3>Sobre a SIMAC</h3>
+          <p>
+            Distribuidora de peças e lubrificantes automotivos com mais de 23 anos 
+            de experiência no mercado, oferecendo qualidade e confiança em São Paulo.
+          </p>
+        </div>
+
+        <!-- Links rápidos -->
+        <div class="footer-section">
+          <h4>Links Rápidos</h4>
+          <ul>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="/catalogo.html">Catálogo</a></li>
+            <li><a href="#produtos">Produtos</a></li>
+            <li><a href="#depoimentos">Depoimentos</a></li>
+            <li><a href="#localizacao">Localização</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </div>
+
+        <!-- Contato -->
+        <div class="footer-section">
+          <h4>Contato</h4>
+          <p>R. Lauzane, 606 - Capela do Socorro</p>
+          <p>São Paulo - SP, 04782-010</p>
+          <p><a href="tel:+551133686305">(11) 3368-6305</a></p>
+          <p><a href="mailto:contato@simacautomotiva.com.br">contato@simacautomotiva.com.br</a></p>
+        </div>
+
+        <!-- Atendimento + redes -->
+        <div class="footer-section">
+          <h4>Atendimento</h4>
+          <p>Seg - Sex: 08:00 - 17:30</p>
+
+          <h4 style="margin-top:16px;">Redes Sociais</h4>
+          <ul class="social-links">
+            <li><a href="https://www.instagram.com/simacautomotiva/" target="_blank">Instagram</a></li>
+            <li><a href="#" target="_blank">LinkedIn</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 SIMAC Distribuidora Automotiva. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
 
   <script src="js/principal/carrosselimg.js"></script>
   <script src="js/principal/mobile-menu.js"></script>
