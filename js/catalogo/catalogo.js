@@ -170,11 +170,6 @@ function renderProducts() {
           <span class="product-detail-label">Caixa:</span>
           <span class="product-detail-value">${p.box_quantity} un</span>
         </div>` : ''}
-        ${p.specification ? `
-        <div class="product-detail-item">
-          <span class="product-detail-label">Especificação:</span>
-          <span class="product-detail-value">${p.specification}</span>
-        </div>` : ''}
       </div>
     </div>
   `).join('');
