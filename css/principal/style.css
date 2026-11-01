@@ -1060,7 +1060,7 @@ body {
 }
 
 .section-header p {
-  font-size: 22px;
+  font-size: 18px;
   color: #f3f3f3;
   margin: 0 auto;
 }
@@ -1077,7 +1077,7 @@ body {
 /* ===== FORMULÁRIO ===== */
 .form-box {
   width: 627px;
-  padding: 40px;
+  padding: 34px;
   border-radius: 16px;
   background: rgba(255,255,255,0.05);
   backdrop-filter: blur(10px);
@@ -1162,13 +1162,26 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  min-width: 300px;
+  min-width: 350px;
 }
 
 .contact-item {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-left: 16px;
+}
+
+.contact-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 3px;
+  bottom: 3px;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
 }
 
 .contact-info strong {
@@ -1588,6 +1601,16 @@ body {
   }
 }
 
+/* ===== TABLET PEQUENO / MOBILE GRANDE (≤ 928px) ===== */
+@media only screen and (max-width: 928px) {
+  .catalog-box video {
+    object-fit: cover;
+    transform: scale(1.08);
+    transform-origin: center;
+    background: #0b0b0b;
+  }
+}
+
 /* ===== TABLET PEQUENO / MOBILE GRANDE (≤ 768px) ===== */
 @media only screen and (max-width: 834px) {
   /* NAVBAR */
@@ -2000,6 +2023,24 @@ body {
   /* FORM */
   .contact-box{
     flex-direction: column;
+  }
+
+  /* VIDEO - MOBILE */
+  .catalog-box {
+    height: 150px;
+    min-height: 170px;
+  }
+
+  .catalog-box video {
+    object-fit: cover;
+    transform: scale(1.08);
+    transform-origin: center;
+    background: #0b0b0b;
+  }
+
+  .btn-catalog {
+    align-self: center;
+    margin-top: auto;
   }
 
   /* PREVENIR SCROLL HORIZONTAL */
